@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zero Gravity Fish Space Ltd — Aquatic Life Support for Space & Earth</title>
+<meta name="description" content="Patented aquatic life-support technology reducing water dependency by 90%. Dual-use innovation for space biomedical research and sustainable aquaculture.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Crimson+Pro:ital,wght@0,300;0,400;1,300&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #050810;
+    --deep: #080d1a;
+    --navy: #0a1628;
+    --blue: #0d3b6e;
+    --cyan: #00b4d8;
+    --cyan-dim: #0077a8;
+    --gold: #c9a84c;
+    --gold-light: #e8c96a;
+    --white: #f0f4ff;
+    --grey: #8a9ab5;
+    --font-display: 'Bebas Neue', sans-serif;
+    --font-body: 'Crimson Pro', serif;
+    --font-mono: 'Space Mono', monospace;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: var(--font-body);
+    font-size: 18px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* STARS BACKGROUND */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      radial-gradient(1px 1px at 10% 15%, rgba(255,255,255,0.8) 0%, transparent 100%),
+      radial-gradient(1px 1px at 25% 60%, rgba(255,255,255,0.5) 0%, transparent 100%),
+      radial-gradient(1px 1px at 40% 30%, rgba(255,255,255,0.7) 0%, transparent 100%),
+      radial-gradient(1px 1px at 55% 80%, rgba(255,255,255,0.4) 0%, transparent 100%),
+      radial-gradient(1px 1px at 70% 20%, rgba(255,255,255,0.6) 0%, transparent 100%),
+      radial-gradient(1px 1px at 80% 50%, rgba(255,255,255,0.5) 0%, transparent 100%),
+      radial-gradient(1px 1px at 90% 75%, rgba(255,255,255,0.7) 0%, transparent 100%),
+      radial-gradient(1px 1px at 15% 85%, rgba(255,255,255,0.4) 0%, transparent 100%),
+      radial-gradient(1px 1px at 60% 45%, rgba(255,255,255,0.6) 0%, transparent 100%),
+      radial-gradient(1px 1px at 35% 10%, rgba(255,255,255,0.5) 0%, transparent 100%),
+      radial-gradient(1px 1px at 85% 35%, rgba(255,255,255,0.8) 0%, transparent 100%),
+      radial-gradient(1px 1px at 5% 45%, rgba(255,255,255,0.4) 0%, transparent 100%),
+      radial-gradient(1px 1px at 75% 90%, rgba(255,255,255,0.6) 0%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 45% 65%, rgba(0,180,216,0.6) 0%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 20% 40%, rgba(0,180,216,0.4) 0%, transparent 100%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 1.2rem 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(5, 8, 16, 0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(0, 180, 216, 0.1);
+  }
+
+  .nav-logo {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    letter-spacing: 0.15em;
+    color: var(--cyan);
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--grey);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+
+  .nav-links a:hover { color: var(--cyan); }
+
+  /* HERO */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 8rem 3rem 5rem;
+    z-index: 1;
+  }
+
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 300px;
+    background: radial-gradient(ellipse at 50% 100%, rgba(0,180,216,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--cyan);
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.2s forwards;
+  }
+
+  .hero-title {
+    font-family: var(--font-display);
+    font-size: clamp(4rem, 10vw, 9rem);
+    line-height: 0.9;
+    letter-spacing: 0.02em;
+    color: var(--white);
+    margin-bottom: 0.3rem;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.4s forwards;
+  }
+
+  .hero-title span {
+    color: var(--cyan);
+    display: block;
+  }
+
+  .hero-subtitle {
+    font-family: var(--font-display);
+    font-size: clamp(1.8rem, 4vw, 3.5rem);
+    letter-spacing: 0.08em;
+    color: var(--gold);
+    margin-bottom: 2.5rem;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.6s forwards;
+  }
+
+  .hero-desc {
+    max-width: 600px;
+    font-size: 1.15rem;
+    font-weight: 300;
+    color: rgba(240, 244, 255, 0.75);
+    line-height: 1.8;
+    margin-bottom: 3rem;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.8s forwards;
+  }
+
+  .hero-badges {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 1s forwards;
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.5rem 1.2rem;
+    border: 1px solid rgba(0, 180, 216, 0.3);
+    background: rgba(0, 180, 216, 0.06);
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--cyan);
+  }
+
+  .badge.gold {
+    border-color: rgba(201, 168, 76, 0.4);
+    background: rgba(201, 168, 76, 0.06);
+    color: var(--gold-light);
+  }
+
+  .badge::before {
+    content: '●';
+    font-size: 0.5rem;
+  }
+
+  /* DIVIDER */
+  .divider {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(0,180,216,0.3), transparent);
+    margin: 0;
+  }
+
+  /* SECTIONS */
+  section {
+    position: relative;
+    z-index: 1;
+    padding: 6rem 3rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--cyan);
+    margin-bottom: 1rem;
+  }
+
+  .section-title {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    letter-spacing: 0.04em;
+    line-height: 1;
+    color: var(--white);
+    margin-bottom: 2.5rem;
+  }
+
+  /* STATS ROW */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    border: 1px solid rgba(0,180,216,0.15);
+    margin: 4rem 0;
+  }
+
+  .stat {
+    padding: 2.5rem 2rem;
+    border-right: 1px solid rgba(0,180,216,0.15);
+    position: relative;
+  }
+
+  .stat:last-child { border-right: none; }
+
+  .stat-number {
+    font-family: var(--font-display);
+    font-size: 4rem;
+    line-height: 1;
+    color: var(--cyan);
+    letter-spacing: 0.02em;
+  }
+
+  .stat-unit {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    color: var(--cyan-dim);
+  }
+
+  .stat-label {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--grey);
+    margin-top: 0.5rem;
+  }
+
+  /* TECHNOLOGY GRID */
+  .tech-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: rgba(0,180,216,0.1);
+    margin-top: 3rem;
+  }
+
+  .tech-card {
+    background: var(--deep);
+    padding: 2.5rem;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.3s;
+  }
+
+  .tech-card:hover { background: rgba(13,59,110,0.4); }
+
+  .tech-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px;
+    height: 100%;
+    background: var(--cyan);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .tech-card:hover::before { opacity: 1; }
+
+  .tech-icon {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    display: block;
+  }
+
+  .tech-card h3 {
+    font-family: var(--font-display);
+    font-size: 1.6rem;
+    letter-spacing: 0.05em;
+    color: var(--white);
+    margin-bottom: 0.8rem;
+  }
+
+  .tech-card p {
+    font-size: 0.95rem;
+    color: rgba(240,244,255,0.65);
+    font-weight: 300;
+    line-height: 1.7;
+  }
+
+  /* IP SECTION */
+  .ip-list {
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .ip-item {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 1.5rem 2rem;
+    border: 1px solid rgba(201,168,76,0.2);
+    background: rgba(201,168,76,0.04);
+    transition: border-color 0.3s;
+  }
+
+  .ip-item:hover { border-color: rgba(201,168,76,0.5); }
+
+  .ip-number {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--gold);
+    letter-spacing: 0.1em;
+    white-space: nowrap;
+  }
+
+  .ip-status {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 0.25rem 0.7rem;
+    margin-left: auto;
+    white-space: nowrap;
+  }
+
+  .ip-status.granted {
+    border: 1px solid rgba(0,180,216,0.4);
+    color: var(--cyan);
+  }
+
+  .ip-status.pending {
+    border: 1px solid rgba(201,168,76,0.4);
+    color: var(--gold-light);
+  }
+
+  .ip-desc {
+    font-size: 0.95rem;
+    color: var(--grey);
+  }
+
+  /* MARKETS */
+  .market-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    margin-top: 3rem;
+  }
+
+  .market-card {
+    padding: 2rem;
+    border: 1px solid rgba(255,255,255,0.07);
+    position: relative;
+  }
+
+  .market-card h3 {
+    font-family: var(--font-display);
+    font-size: 1.8rem;
+    letter-spacing: 0.04em;
+    margin-bottom: 0.8rem;
+  }
+
+  .market-card p {
+    font-size: 0.95rem;
+    color: rgba(240,244,255,0.6);
+    font-weight: 300;
+  }
+
+  .market-card.space h3 { color: var(--cyan); }
+  .market-card.earth h3 { color: var(--gold-light); }
+
+  /* TRACTION */
+  .traction-items {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    margin-top: 3rem;
+  }
+
+  .traction-item {
+    display: flex;
+    gap: 1.2rem;
+    padding: 1.5rem;
+    border-left: 2px solid var(--cyan);
+    background: rgba(0,180,216,0.04);
+  }
+
+  .traction-item.gold-border { border-left-color: var(--gold); background: rgba(201,168,76,0.04); }
+
+  .traction-item p {
+    font-size: 0.95rem;
+    color: rgba(240,244,255,0.75);
+  }
+
+  .traction-item strong {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--cyan);
+    margin-bottom: 0.4rem;
+  }
+
+  .traction-item.gold-border strong { color: var(--gold-light); }
+
+  /* CONTACT */
+  .contact-section {
+    text-align: center;
+    padding: 6rem 3rem;
+    position: relative;
+    z-index: 1;
+    border-top: 1px solid rgba(0,180,216,0.1);
+  }
+
+  .contact-section::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 50%; transform: translateX(-50%);
+    width: 600px;
+    height: 300px;
+    background: radial-gradient(ellipse, rgba(0,180,216,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .contact-title {
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 7vw, 6rem);
+    letter-spacing: 0.04em;
+    color: var(--white);
+    margin-bottom: 1rem;
+  }
+
+  .contact-title span { color: var(--cyan); }
+
+  .contact-desc {
+    font-size: 1.1rem;
+    color: var(--grey);
+    margin-bottom: 2.5rem;
+    font-weight: 300;
+  }
+
+  .contact-email {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    letter-spacing: 0.1em;
+    color: var(--cyan);
+    text-decoration: none;
+    padding: 1rem 2.5rem;
+    border: 1px solid rgba(0,180,216,0.4);
+    transition: all 0.3s;
+  }
+
+  .contact-email:hover {
+    background: rgba(0,180,216,0.1);
+    border-color: var(--cyan);
+  }
+
+  .linkedin-link {
+    display: inline-block;
+    margin-top: 1.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--grey);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+
+  .linkedin-link:hover { color: var(--cyan); }
+
+  /* FOOTER */
+  footer {
+    position: relative;
+    z-index: 1;
+    padding: 2rem 3rem;
+    border-top: 1px solid rgba(255,255,255,0.05);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  footer p {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.12em;
+    color: rgba(138,154,181,0.5);
+    text-transform: uppercase;
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* SCROLL REVEAL */
+  .reveal {
+    opacity: 0;
+    transform: translateY(25px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ORBIT DECORATION */
+  .orbit-decoration {
+    position: absolute;
+    right: -100px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 500px;
+    height: 500px;
+    border: 1px solid rgba(0,180,216,0.06);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+
+  .orbit-decoration::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    width: 300px;
+    height: 300px;
+    border: 1px solid rgba(0,180,216,0.04);
+    border-radius: 50%;
+  }
+
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    .hero { padding: 7rem 1.5rem 4rem; }
+    section { padding: 4rem 1.5rem; }
+    .stats { grid-template-columns: 1fr; }
+    .stat { border-right: none; border-bottom: 1px solid rgba(0,180,216,0.15); }
+    .tech-grid { grid-template-columns: 1fr; }
+    .market-grid { grid-template-columns: 1fr; }
+    .traction-items { grid-template-columns: 1fr; }
+    .contact-section { padding: 4rem 1.5rem; }
+    footer { flex-direction: column; gap: 1rem; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">ZGFS</div>
+  <ul class="nav-links">
+    <li><a href="#technology">Technology</a></li>
+    <li><a href="#ip">Patents</a></li>
+    <li><a href="#markets">Markets</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<div class="hero">
+  <div class="orbit-decoration"></div>
+  <p class="hero-eyebrow">Deep Tech Pioneer · London, UK · Est. 2024</p>
+  <h1 class="hero-title">ZERO<br><span>GRAVITY</span></h1>
+  <p class="hero-subtitle">FISH SPACE LTD</p>
+  <p class="hero-desc">
+    Patented aquatic life-support technology enabling live organisms to survive in 
+    <em>10% of conventional water volume</em> — for space biomedical research and 
+    sustainable aquaculture logistics.
+  </p>
+  <div class="hero-badges">
+    <span class="badge gold">2026 Hello Tomorrow Deep Tech Pioneer</span>
+    <span class="badge">TRL 4–5 · Working Prototype</span>
+    <span class="badge">Dual-Use Technology</span>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<section>
+  <div class="stats reveal">
+    <div class="stat">
+      <div class="stat-number">90<span class="stat-unit">%</span></div>
+      <div class="stat-label">Water Volume Reduction</div>
+    </div>
+    <div class="stat">
+      <div class="stat-number">3</div>
+      <div class="stat-label">Patents (2 Granted · 1 Under Examination)</div>
+    </div>
+    <div class="stat">
+      <div class="stat-number">2</div>
+      <div class="stat-label">Commercial Contracts Signed</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section id="technology">
+  <p class="section-label reveal">Core Innovation</p>
+  <h2 class="section-title reveal">The Artificial<br>Fish Lung System</h2>
+  <p class="reveal" style="max-width:650px; color: rgba(240,244,255,0.7); font-weight:300; font-size:1.05rem;">
+    Our patented system recreates the essential conditions for aquatic life — buoyancy, 
+    oxygenation, pressure regulation — without large water volumes. The result: viable 
+    biological payloads for orbit, and radically efficient transport for live fish logistics on Earth.
+  </p>
+
+  <div class="tech-grid reveal">
+    <div class="tech-card">
+      <span class="tech-icon">🌊</span>
+      <h3>Water Reduction</h3>
+      <p>Proprietary fluid dynamics reduce water dependency by up to 90%, directly cutting payload mass, transport costs, and CO₂ emissions.</p>
+    </div>
+    <div class="tech-card">
+      <span class="tech-icon">🛰️</span>
+      <h3>Microgravity Stabilisation</h3>
+      <p>A controlled fluid-film "biological water-suit" eliminates sloshing in zero-G, maintaining organism safety and behavioural integrity throughout launch and orbit.</p>
+    </div>
+    <div class="tech-card">
+      <span class="tech-icon">🔬</span>
+      <h3>Zebrafish Research Platform</h3>
+      <p>Enables live Zebrafish habitats for bone, muscle, and neurobiology studies in microgravity — the most cost-effective biological model for space medicine.</p>
+    </div>
+    <div class="tech-card">
+      <span class="tech-icon">🐟</span>
+      <h3>Aquaculture Logistics</h3>
+      <p>Live fish transport with 90% less water means lower mortality, reduced fuel costs, and new routes for premium species — lobster, crab, Atlantic salmon — previously impractical to ship alive.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section id="ip">
+  <p class="section-label reveal">Intellectual Property</p>
+  <h2 class="section-title reveal">Patent Portfolio</h2>
+  <div class="ip-list reveal">
+    <div class="ip-item">
+      <span class="ip-number">GB2325385A</span>
+      <span class="ip-desc">High-pressure aquatic life transport system — foundational patent covering core water-reduction mechanism</span>
+      <span class="ip-status granted">Granted</span>
+    </div>
+    <div class="ip-item">
+      <span class="ip-number">GB2383933A</span>
+      <span class="ip-desc">Biological water-suit for microgravity — fluid-film stabilisation for zero-G aquatic organism transport</span>
+      <span class="ip-status granted">Granted</span>
+    </div>
+    <div class="ip-item">
+      <span class="ip-number">GB2513140.0</span>
+      <span class="ip-desc">Latest advancements in closed-loop aquatic life-support — filed August 2025, currently under examination</span>
+      <span class="ip-status pending">Under Examination</span>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section id="markets">
+  <p class="section-label reveal">Commercial Strategy</p>
+  <h2 class="section-title reveal">Dual-Use Markets</h2>
+  <div class="market-grid reveal">
+    <div class="market-card space">
+      <h3>Space Biomedical Research</h3>
+      <p>Modular Zebrafish habitats for pharmaceutical research on ISS and private space stations. Target partners: NASA, ESA, JAXA, Axiom Space. Global space economy projected at $1 trillion by 2040.</p>
+    </div>
+    <div class="market-card earth">
+      <h3>Sustainable Aquaculture</h3>
+      <p>Live fish and shellfish transport with 90% less water. Targeting the $200B+ global aquaculture industry. Two commercial contracts previously signed with operators in North America and Europe.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section>
+  <p class="section-label reveal">Validation & Traction</p>
+  <h2 class="section-title reveal">Progress to Date</h2>
+  <div class="traction-items reveal">
+    <div class="traction-item gold-border">
+      <div>
+        <strong>Hello Tomorrow 2026</strong>
+        <p>Selected as Deep Tech Pioneer — Stage 1 finalist, top 10% of global applicants across all deep tech verticals.</p>
+      </div>
+    </div>
+    <div class="traction-item">
+      <div>
+        <strong>Working Prototype</strong>
+        <p>Functional system validated at TRL 4–5, demonstrating live fish sustained in 10% of conventional water volume.</p>
+      </div>
+    </div>
+    <div class="traction-item gold-border">
+      <div>
+        <strong>Commercial Contracts</strong>
+        <p>Two signed contracts with live transport operators — pet fish (UK/Europe) and shellfish logistics (Canada) — paused pending R&D completion.</p>
+      </div>
+    </div>
+    <div class="traction-item">
+      <div>
+        <strong>3-Patent Portfolio</strong>
+        <p>Two granted UK patents plus a third application under examination, providing robust IP protection across terrestrial and space applications.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="contact-section">
+  <h2 class="contact-title">READY TO<br><span>COLLABORATE</span></h2>
+  <p class="contact-desc">Seeking academic partners, space agency collaborations, and strategic investors.</p>
+  <a href="mailto:montispietro@yahoo.co.uk" class="contact-email">montispietro@yahoo.co.uk</a>
+  <br>
+  <a href="https://www.linkedin.com/in/pietro-montis-a531a1130/" target="_blank" class="linkedin-link">LinkedIn → Pietro Montis</a>
+</div>
+
+<footer>
+  <p>© 2026 Zero Gravity Fish Space Ltd · Company No. 16720954 · London, UK</p>
+  <p>GB2325385A · GB2383933A · GB2513140.0</p>
+</footer>
+
+<script>
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
