@@ -83,7 +83,7 @@
   }
 
   .logo-img {
-    height: 40px; /* Alaltezza bilanciata per la barra di navigazione */
+    height: 40px;
     width: auto;
     object-fit: contain;
   }
@@ -247,6 +247,25 @@
     line-height: 1;
     color: var(--white);
     margin-bottom: 2.5rem;
+  }
+
+  /* TECHNOLOGY SECTION SPLIT LAYOUT */
+  .tech-header-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 0.6fr;
+    gap: 4rem;
+    align-items: center;
+    margin-bottom: 4rem;
+  }
+
+  .tech-section-logo {
+    width: 100%;
+    max-width: 200px; /* Grande 5 volte l'icona della barra di navigazione */
+    height: auto;
+    object-fit: contain;
+    justify-self: center;
+    opacity: 0.85;
+    filter: drop-shadow(0 0 20px rgba(0, 180, 216, 0.15));
   }
 
   /* STATS ROW */
@@ -594,6 +613,8 @@
     .nav-links { display: none; }
     .hero { padding: 7rem 1.5rem 4rem; }
     section { padding: 4rem 1.5rem; }
+    .tech-header-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .tech-section-logo { max-width: 150px; }
     .stats { grid-template-columns: 1fr; }
     .stat { border-right: none; border-bottom: 1px solid rgba(0,180,216,0.15); }
     .tech-grid { grid-template-columns: 1fr; }
@@ -658,13 +679,21 @@
 <div class="divider"></div>
 
 <section id="technology">
-  <p class="section-label reveal">Core Innovation</p>
-  <h2 class="section-title reveal">The Artificial<br>Fish Lung System</h2>
-  <p class="reveal" style="max-width:650px; color: rgba(240,244,255,0.7); font-weight:300; font-size:1.05rem;">
-    Our patented system recreates the essential conditions for aquatic life — buoyancy, 
-    oxygenation, pressure regulation — without large water volumes. The result: viable 
-    biological payloads for orbit, and radically efficient transport for live fish logistics on Earth.
-  </p>
+  <div class="tech-header-grid">
+    <!-- Colonna Sinistra: Testi -->
+    <div class="reveal">
+      <p class="section-label">Core Innovation</p>
+      <h2 class="section-title">The Artificial<br>Fish Lung System</h2>
+      <p style="max-width:650px; color: rgba(240,244,255,0.7); font-weight:300; font-size:1.05rem;">
+        Our patented system recreates the essential conditions for aquatic life — buoyancy, 
+        oxygenation, pressure regulation — without large water volumes. The result: viable 
+        biological payloads for orbit, and radically efficient transport for live fish logistics on Earth.
+      </p>
+    </div>
+    
+    <!-- Colonna Destra: Logo Ingrandito (x5 rispetto ai 40px del Nav) -->
+    <img src="zgfs.png" alt="ZGFS System Architecture" class="tech-section-logo reveal">
+  </div>
 
   <div class="tech-grid reveal">
     <div class="tech-card">
