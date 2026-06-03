@@ -249,10 +249,10 @@
     margin-bottom: 2.5rem;
   }
 
-  /* TECHNOLOGY SECTION SPLIT LAYOUT */
+  /* TECHNOLOGY SECTION SPLIT LAYOUT (Aggiornato 50% e 50%) */
   .tech-header-grid {
     display: grid;
-    grid-template-columns: 1.4fr 0.6fr;
+    grid-template-columns: 1fr 1fr;
     gap: 4rem;
     align-items: center;
     margin-bottom: 4rem;
@@ -260,12 +260,12 @@
 
   .tech-section-logo {
     width: 100%;
-    max-width: 200px; /* Grande 5 volte l'icona della barra di navigazione */
+    max-width: 600px; /* Almeno il triplo rispetto a prima, grandezza ottimizzata */
     height: auto;
     object-fit: contain;
     justify-self: center;
-    opacity: 0.85;
-    filter: drop-shadow(0 0 20px rgba(0, 180, 216, 0.15));
+    opacity: 0.9;
+    filter: drop-shadow(0 0 30px rgba(0, 180, 216, 0.2));
   }
 
   /* STATS ROW */
@@ -608,13 +608,17 @@
     border-radius: 50%;
   }
 
+  @media (max-width: 992px) {
+    .tech-header-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+    .tech-section-logo { max-width: 400px; }
+  }
+
   @media (max-width: 768px) {
     nav { padding: 1rem 1.5rem; }
     .nav-links { display: none; }
     .hero { padding: 7rem 1.5rem 4rem; }
     section { padding: 4rem 1.5rem; }
-    .tech-header-grid { grid-template-columns: 1fr; gap: 2rem; }
-    .tech-section-logo { max-width: 150px; }
+    .tech-section-logo { max-width: 280px; }
     .stats { grid-template-columns: 1fr; }
     .stat { border-right: none; border-bottom: 1px solid rgba(0,180,216,0.15); }
     .tech-grid { grid-template-columns: 1fr; }
@@ -684,14 +688,14 @@
     <div class="reveal">
       <p class="section-label">Core Innovation</p>
       <h2 class="section-title">The Artificial<br>Fish Lung System</h2>
-      <p style="max-width:650px; color: rgba(240,244,255,0.7); font-weight:300; font-size:1.05rem;">
+      <p style="color: rgba(240,244,255,0.7); font-weight:300; font-size:1.05rem;">
         Our patented system recreates the essential conditions for aquatic life — buoyancy, 
         oxygenation, pressure regulation — without large water volumes. The result: viable 
         biological payloads for orbit, and radically efficient transport for live fish logistics on Earth.
       </p>
     </div>
     
-    <!-- Colonna Destra: Logo Ingrandito (x5 rispetto ai 40px del Nav) -->
+    <!-- Colonna Destra: Foto Ingrandita (Max 600px) -->
     <img src="zgfs.png" alt="ZGFS System Architecture" class="tech-section-logo reveal">
   </div>
 
