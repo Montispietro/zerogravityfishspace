@@ -9,6 +9,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Crimson+Pro:ital,wght@0,300;0,400;1,300&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
+  <img src="zgfs.png" alt="Zero Gravity Fish Space Ltd logo" width="250">
+
   :root {
     --black: #050810;
     --deep: #080d1a;
