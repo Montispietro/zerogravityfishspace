@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -67,25 +68,20 @@
     position: fixed;
     top: 0; left: 0; right: 0;
     z-index: 100;
-    padding: 0.75rem 3rem;
+    padding: 1.2rem 3rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: rgba(5, 8, 16, 0.9);
+    background: rgba(5, 8, 16, 0.85);
     backdrop-filter: blur(12px);
     border-bottom: 1px solid rgba(0, 180, 216, 0.1);
   }
 
-  .nav-brand {
-    display: flex;
-    align-items: center;
-  }
-
-  .logo-img {
-    height: 45px;
-    width: auto;
-    object-fit: contain;
-    filter: drop-shadow(0 0 8px rgba(0, 180, 216, 0.3));
+  .nav-logo {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    letter-spacing: 0.15em;
+    color: var(--cyan);
   }
 
   .nav-links {
@@ -113,9 +109,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
-    text-align: center;
-    padding: 8rem 2rem 5rem;
+    padding: 8rem 3rem 5rem;
     z-index: 1;
   }
 
@@ -141,24 +135,24 @@
 
   .hero-title {
     font-family: var(--font-display);
-    font-size: clamp(3.5rem, 8vw, 7.5rem);
-    line-height: 1.05;
-    letter-spacing: 0.03em;
+    font-size: clamp(4rem, 10vw, 9rem);
+    line-height: 0.9;
+    letter-spacing: 0.02em;
     color: var(--white);
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.3rem;
     opacity: 0;
     animation: fadeUp 0.8s ease 0.4s forwards;
   }
 
   .hero-title span {
     color: var(--cyan);
+    display: block;
   }
 
   .hero-subtitle {
     font-family: var(--font-display);
-    font-size: clamp(1.6rem, 3.5vw, 3rem);
-    line-height: 1.2;
-    letter-spacing: 0.1em;
+    font-size: clamp(1.8rem, 4vw, 3.5rem);
+    letter-spacing: 0.08em;
     color: var(--gold);
     margin-bottom: 2.5rem;
     opacity: 0;
@@ -166,7 +160,7 @@
   }
 
   .hero-desc {
-    max-width: 650px;
+    max-width: 600px;
     font-size: 1.15rem;
     font-weight: 300;
     color: rgba(240, 244, 255, 0.75);
@@ -178,8 +172,7 @@
 
   .hero-badges {
     display: flex;
-    gap: 1rem;
-    justify-content: center;
+    gap: 1.5rem;
     flex-wrap: wrap;
     opacity: 0;
     animation: fadeUp 0.8s ease 1s forwards;
@@ -240,28 +233,9 @@
     font-family: var(--font-display);
     font-size: clamp(2.5rem, 5vw, 4.5rem);
     letter-spacing: 0.04em;
-    line-height: 1.1;
+    line-height: 1;
     color: var(--white);
     margin-bottom: 2.5rem;
-  }
-
-  /* TECHNOLOGY SECTION SPLIT LAYOUT */
-  .tech-header-grid {
-    display: grid;
-    grid-template-columns: 1.2fr 0.8fr;
-    gap: 4rem;
-    align-items: center;
-    margin-bottom: 4rem;
-  }
-
-  .tech-section-logo {
-    width: 100%;
-    max-width: 450px;
-    height: auto;
-    object-fit: contain;
-    justify-self: center;
-    opacity: 0.95;
-    filter: drop-shadow(0 0 40px rgba(0, 180, 216, 0.25));
   }
 
   /* STATS ROW */
@@ -604,9 +578,19 @@
     border-radius: 50%;
   }
 
-  @media (max-width: 992px) {
-    .tech-header-grid { grid-template-columns: 1fr; gap: 2.5rem; }
-    .tech-section-logo { max-width: 350px; }
+  .hero-image-section {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    padding: 2rem 3rem 0;
+  }
+
+  .hero-image-section img {
+    max-width: 480px;
+    width: 100%;
+    border: 1px solid rgba(0,180,216,0.15);
+    box-shadow: 0 0 60px rgba(0,180,216,0.08);
   }
 
   @media (max-width: 768px) {
@@ -614,7 +598,6 @@
     .nav-links { display: none; }
     .hero { padding: 7rem 1.5rem 4rem; }
     section { padding: 4rem 1.5rem; }
-    .tech-section-logo { max-width: 280px; }
     .stats { grid-template-columns: 1fr; }
     .stat { border-right: none; border-bottom: 1px solid rgba(0,180,216,0.15); }
     .tech-grid { grid-template-columns: 1fr; }
@@ -628,9 +611,7 @@
 <body>
 
 <nav>
-  <div class="nav-brand">
-    <img src="image_1780514604070_2.jpeg" alt="Zero Gravity Fish Space Ltd logo" class="logo-img">
-  </div>
+  <div class="nav-logo">ZGFS</div>
   <ul class="nav-links">
     <li><a href="#technology">Technology</a></li>
     <li><a href="#ip">Patents</a></li>
@@ -641,7 +622,7 @@
 
 <div class="hero">
   <div class="orbit-decoration"></div>
-  <p class="hero-eyebrow">Deep Tech Pioneer · London, UK · Est. 2025</p>
+  <p class="hero-eyebrow">Deep Tech Pioneer · London, UK · Est. 2024</p>
   <h1 class="hero-title">ZERO<br><span>GRAVITY</span></h1>
   <p class="hero-subtitle">FISH SPACE LTD</p>
   <p class="hero-desc">
@@ -651,9 +632,13 @@
   </p>
   <div class="hero-badges">
     <span class="badge gold">2026 Hello Tomorrow Deep Tech Pioneer</span>
-    <span class="badge">TRL 4–5 · Working Prototype</span>
+    <span class="badge">1 Granted Patent · 1 Under Examination</span>
     <span class="badge">Dual-Use Technology</span>
   </div>
+</div>
+
+<div class="hero-image-section">
+  <img src="zgfs.png" alt="Zebrafish in minimal water — Zero Gravity Fish Space prototype concept">
 </div>
 
 <div class="divider"></div>
@@ -665,8 +650,8 @@
       <div class="stat-label">Water Volume Reduction</div>
     </div>
     <div class="stat">
-      <div class="stat-number">3</div>
-      <div class="stat-label">Patents (2 Granted · 1 Under Examination)</div>
+      <div class="stat-number">2</div>
+      <div class="stat-label">Patents (1 Granted · 1 Under Examination)</div>
     </div>
     <div class="stat">
       <div class="stat-number">2</div>
@@ -678,18 +663,13 @@
 <div class="divider"></div>
 
 <section id="technology">
-  <div class="tech-header-grid">
-    <div class="reveal">
-      <p class="section-label">Core Innovation</p>
-      <h2 class="section-title">The Artificial<br>Fish Lung System</h2>
-      <p style="color: rgba(240,244,255,0.7); font-weight:300; font-size:1.05rem;">
-        Our patented system recreates the essential conditions for aquatic life — buoyancy, 
-        oxygenation, pressure regulation — without large water volumes. The result: viable 
-        biological payloads for orbit, and radically efficient transport for live fish logistics on Earth.
-      </p>
-    </div>
-    <img src="image_1780514604070_2.jpeg" alt="Zero Gravity Fish Space logo graphic" class="tech-section-logo reveal">
-  </div>
+  <p class="section-label reveal">Core Innovation</p>
+  <h2 class="section-title reveal">The Artificial<br>Fish Lung System</h2>
+  <p class="reveal" style="max-width:650px; color: rgba(240,244,255,0.7); font-weight:300; font-size:1.05rem;">
+    Our patented system recreates the essential conditions for aquatic life — buoyancy, 
+    oxygenation, pressure regulation — without large water volumes. The result: viable 
+    biological payloads for orbit, and radically efficient transport for live fish logistics on Earth.
+  </p>
 
   <div class="tech-grid reveal">
     <div class="tech-card">
@@ -727,13 +707,8 @@
       <span class="ip-status granted">Granted</span>
     </div>
     <div class="ip-item">
-      <span class="ip-number">GB2383933A</span>
-      <span class="ip-desc">Biological water-suit for microgravity — fluid-film stabilisation for zero-G aquatic organism transport</span>
-      <span class="ip-status granted">Granted</span>
-    </div>
-    <div class="ip-item">
-      <span class="ip-number">GB2515047.7</span>
-      <span class="ip-desc">Latest advancements in closed-loop aquatic life-support — currently under examination</span>
+      <span class="ip-number">GB2513140.0</span>
+      <span class="ip-desc">Latest advancements in closed-loop aquatic life-support — filed August 2025, currently under examination</span>
       <span class="ip-status pending">Under Examination</span>
     </div>
   </div>
@@ -765,7 +740,7 @@
     <div class="traction-item gold-border">
       <div>
         <strong>Hello Tomorrow 2026</strong>
-        <p>Selected as Deep Tech Pioneer — Stage 2 finalist, validating technology across global deep tech verticals.</p>
+        <p>Selected as Deep Tech Pioneer — Stage 1 finalist, top 10% of global applicants across all deep tech verticals.</p>
       </div>
     </div>
     <div class="traction-item">
@@ -782,8 +757,8 @@
     </div>
     <div class="traction-item">
       <div>
-        <strong>3-Patent Portfolio</strong>
-        <p>Two granted UK patents plus an additional application under examination, providing robust IP protection across terrestrial and space applications.</p>
+        <strong>Patent Portfolio</strong>
+        <p>One granted UK patent plus a second application under examination, providing robust IP protection across terrestrial and space applications.</p>
       </div>
     </div>
   </div>
@@ -799,7 +774,7 @@
 
 <footer>
   <p>© 2026 Zero Gravity Fish Space Ltd · Company No. 16720954 · London, UK</p>
-  <p>GB2325385A · GB2383933A · GB2515047.7</p>
+  <p>GB2325385A · GB2513140.0</p>
 </footer>
 
 <script>
