@@ -67,11 +67,11 @@
     position: fixed;
     top: 0; left: 0; right: 0;
     z-index: 100;
-    padding: 1rem 3rem;
+    padding: 0.75rem 3rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: rgba(5, 8, 16, 0.85);
+    background: rgba(5, 8, 16, 0.9);
     backdrop-filter: blur(12px);
     border-bottom: 1px solid rgba(0, 180, 216, 0.1);
   }
@@ -79,20 +79,14 @@
   .nav-brand {
     display: flex;
     align-items: center;
-    gap: 1rem;
   }
 
   .logo-img {
-    height: 40px;
+    height: 45px;
     width: auto;
     object-fit: contain;
-  }
-
-  .nav-logo {
-    font-family: var(--font-display);
-    font-size: 1.4rem;
-    letter-spacing: 0.15em;
-    color: var(--cyan);
+    /* Leggero filtro per armonizzare i bianchi accesi del logo con il testo azzurrato */
+    filter: drop-shadow(0 0 8px rgba(0, 180, 216, 0.3));
   }
 
   .nav-links {
@@ -113,7 +107,7 @@
 
   .nav-links a:hover { color: var(--cyan); }
 
-  /* HERO - CENTRATA E CORRETTA */
+  /* HERO */
   .hero {
     position: relative;
     min-height: 100vh;
@@ -148,8 +142,8 @@
 
   .hero-title {
     font-family: var(--font-display);
-    font-size: clamp(3.5rem, 8vw, 7.5rem); /* Ridotto leggermente per evitare tagli */
-    line-height: 1.05; /* Aumentato per evitare collisioni e tagli del font */
+    font-size: clamp(3.5rem, 8vw, 7.5rem);
+    line-height: 1.05;
     letter-spacing: 0.03em;
     color: var(--white);
     margin-bottom: 0.5rem;
@@ -163,7 +157,7 @@
 
   .hero-subtitle {
     font-family: var(--font-display);
-    font-size: clamp(1.6rem, 3.5vw, 3rem); /* Ridotto proporzionalmente */
+    font-size: clamp(1.6rem, 3.5vw, 3rem);
     line-height: 1.2;
     letter-spacing: 0.1em;
     color: var(--gold);
@@ -255,7 +249,7 @@
   /* TECHNOLOGY SECTION SPLIT LAYOUT */
   .tech-header-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1.2fr 0.8fr;
     gap: 4rem;
     align-items: center;
     margin-bottom: 4rem;
@@ -263,12 +257,12 @@
 
   .tech-section-logo {
     width: 100%;
-    max-width: 600px;
+    max-width: 450px;
     height: auto;
     object-fit: contain;
     justify-self: center;
-    opacity: 0.9;
-    filter: drop-shadow(0 0 30px rgba(0, 180, 216, 0.2));
+    opacity: 0.95;
+    filter: drop-shadow(0 0 40px rgba(0, 180, 216, 0.25));
   }
 
   /* STATS ROW */
@@ -613,7 +607,7 @@
 
   @media (max-width: 992px) {
     .tech-header-grid { grid-template-columns: 1fr; gap: 2.5rem; }
-    .tech-section-logo { max-width: 400px; }
+    .tech-section-logo { max-width: 350px; }
   }
 
   @media (max-width: 768px) {
@@ -636,8 +630,7 @@
 
 <nav>
   <div class="nav-brand">
-    <img src="zgfs.png" alt="Zero Gravity Fish Space Ltd logo" class="logo-img">
-    <div class="nav-logo">ZGFS</div>
+    <img src="image_1780514604070.jpeg" alt="Zero Gravity Fish Space Ltd logo" class="logo-img">
   </div>
   <ul class="nav-links">
     <li><a href="#technology">Technology</a></li>
@@ -696,7 +689,7 @@
         biological payloads for orbit, and radically efficient transport for live fish logistics on Earth.
       </p>
     </div>
-    <img src="zgfs.png" alt="ZGFS System Architecture" class="tech-section-logo reveal">
+    <img src="image_1780514604070.jpeg" alt="ZGFS System Architecture" class="tech-section-logo reveal">
   </div>
 
   <div class="tech-grid reveal">
