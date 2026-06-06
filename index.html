@@ -1,3 +1,243 @@
+
+
+
+
+Riscatta l'offerta
+Deep-Tech-Pioneers_Blue.png
+
+Pasted text.txt
+Documento
+ aggiungimi questo immaggine al posto della scritta grande zero gravity fish space .dammi copia incolla codice
+
+Se vuoi sostituire la scritta grande "ZERO GRAVITY FISH SPACE" con il logo che hai caricato, elimina questo blocco:
+
+<h1 class="hero-title">
+  ZERO GRAVITY
+  <span>FISH SPACE</span>
+</h1>
+e inserisci al suo posto:
+
+<div class="hero-logo">
+    <img src="images/Deep-Tech-Pioneers_Blue.png"
+         alt="Hello Tomorrow Deep Tech Pioneer">
+</div>
+Aggiungi inoltre questo CSS:
+
+.hero-logo{
+    margin-bottom:2rem;
+    display:flex;
+    align-items:center;
+}
+
+.hero-logo img{
+    max-width:420px;
+    width:100%;
+    height:auto;
+    display:block;
+    filter:drop-shadow(0 0 20px rgba(0,180,216,0.25));
+}
+Se invece vuoi che il logo sia centrato e molto grande nella Hero Section:
+
+.hero-logo{
+    display:flex;
+    justify-content:center;
+    margin-bottom:2rem;
+}
+
+.hero-logo img{
+    width:min(700px,90vw);
+    height:auto;
+}
+e l'HTML:
+
+<section class="hero">
+
+    <div class="hero-logo">
+        <img src="images/Deep-Tech-Pioneers_Blue.png"
+             alt="Hello Tomorrow Deep Tech Pioneer">
+    </div>
+
+    <div class="hero-subtitle">
+        Aquatic Life Support For Space & Earth
+    </div>
+
+    <p class="hero-desc">
+        Patented aquatic life-support technology reducing water dependency by 90%.
+    </p>
+
+</section>
+Il logo da utilizzare è quello che hai caricato: 
+
+.
+
+
+dammi tutto il codice completo copia incolla
+
+Non posso incollare l'intero file HTML completo perché il documento che hai caricato è molto lungo ed è stato troncato nel messaggio. 
+
+
+Posso però darti la sostituzione esatta da fare nel tuo codice.
+
+1. Cerca questo blocco
+<h1 class="hero-title">
+  ZERO GRAVITY
+  <span>FISH SPACE</span>
+</h1>
+2. Sostituiscilo con
+<div class="hero-logo">
+    <img src="Deep-Tech-Pioneers_Blue.png"
+         alt="Hello Tomorrow Deep Tech Pioneer">
+</div>
+3. Aggiungi questo CSS subito dopo .hero-title
+.hero-logo{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    margin-bottom:2rem;
+    animation: fadeUp 0.8s ease 0.4s forwards;
+    opacity:0;
+}
+
+.hero-logo img{
+    width:min(700px,90vw);
+    height:auto;
+    display:block;
+    filter:drop-shadow(0 0 30px rgba(0,180,216,0.25));
+}
+4. Se vuoi eliminare completamente il testo grande, puoi anche cancellare dal CSS:
+.hero-title {
+    font-family: var(--font-display);
+    font-size: clamp(4rem, 10vw, 9rem);
+    line-height: 0.9;
+    letter-spacing: 0.02em;
+    color: var(--white);
+    margin-bottom: 0.3rem;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.4s forwards;
+}
+
+.hero-title span {
+    color: var(--cyan);
+    display: block;
+}
+Se mi carichi il file HTML completo (non come testo troncato), posso restituirti il file già modificato completo, pronto da copiare e incollare.
+
+
+dimme le righe in che numero le trovo
+
+Dal frammento che hai caricato non è possibile sapere i numeri di riga reali, perché il file è stato troncato automaticamente. 
+
+
+Per trovarlo velocemente:
+
+Cerca questa stringa
+<h1 class="hero-title">
+oppure
+
+ZERO GRAVITY
+Nel file che hai mostrato si trova nella sezione:
+
+<!-- HERO -->
+.hero-title {
+e più avanti nell'HTML:
+
+<section class="hero">
+Sostituisci il blocco
+<h1 class="hero-title">
+  ZERO GRAVITY
+  <span>FISH SPACE</span>
+</h1>
+con
+
+<div class="hero-logo">
+    <img src="Deep-Tech-Pioneers_Blue.png"
+         alt="Hello Tomorrow Deep Tech Pioneer">
+</div>
+Cerca poi nel CSS
+.hero-title {
+e subito prima di questo blocco incolla:
+
+.hero-logo{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    margin-bottom:2rem;
+    animation: fadeUp 0.8s ease 0.4s forwards;
+    opacity:0;
+}
+
+.hero-logo img{
+    width:min(700px,90vw);
+    height:auto;
+    display:block;
+    filter:drop-shadow(0 0 30px rgba(0,180,216,0.25));
+}
+Se mi carichi direttamente il file .html (non come testo incollato), posso indicarti i numeri di riga esatti oppure restituirti il file già modificato.
+
+
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -58,42 +298,7 @@
       radial-gradient(1px 1px at 75% 90%, rgba(255,255,255,0.6) 0%, transparent 100%),
       radial-gradient(1.5px 1.5px at 45% 65%, rgba(0,180,216,0.6) 0%, transparent 100%),
       radial-gradient(1.5px 1.5px at 20% 40%, rgba(0,180,216,0.4) 0%, transparent 100%);
-    pointer-events: none;
-    z-index: 0;
-  }
 
-  /* NAV */
-  nav {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    z-index: 100;
-    padding: 1.2rem 3rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: rgba(5, 8, 16, 0.85);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba(0, 180, 216, 0.1);
-  }
+Scegli una sintassi
 
-  .nav-logo {
-    font-family: var(--font-display);
-    font-size: 1.1rem;
-    letter-spacing: 0.15em;
-    color: var(--cyan);
-  }
-
-  /* ... (tutti gli altri stili originali rimangono invariati) ... */
-
-</style>
-</head>
-<body>
-
-<nav>
-  <div class="nav-logo"><img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/..." alt="Zero Gravity Fish Space" style="max-width:500px;width:80%;mix-blend-mode:screen;filter:drop-shadow(0 0 25px rgba(0,180,216,0.45));"></div>
-</nav>
-
-<div class="hero">
-  <!-- Qui c'era il logo base64 originale molto lungo -->
-  <div style="text-align:center;margin:3rem 0 1rem;">
-    <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDAAEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQH/2wBDAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQH/wAARCALQBDgDASIAAhEBAxEB/8QAHwABAAIDAAIDAQAAAAAAAAAAAAkKBwgLBQYBAwQC/8QAUhAAAAYCAQMDAgQDBQUDCAUNAAECAwQFBgcICRESChMhFDEVIkFRFiMyF0JhcYEYJDNSkSVyoRkmNDZDYrHwJzdjweE1REdIU2eSlLfC0dbx/8QAHQEBAAIDAQEBAQAAAAAAAAAAAAUGBAcIAgMBCf/EAEoRAAEEAgIBAwMCBAIGBgUNAQIAAQMEBREGEiEHEzEUIkEjUQgVMmEkQhYzUnGBkRc0YnKUsSVDU2PwJjZERVRWV2RzpLLB1PH/2gAMAwEAAhEDEQA/AL+AAAIgAAIgAAIgAAIgAAIgAAIgAAIgAAIgAAIgAAIgAAIgAAIgAAIgAAIgAAIgAAIgAAIgAAIgAAIgAAIgAAIgAAIgAAIgAAIgAAIgAAIgAAIgAAIgAAIgAAIgAAIgAAIgAAIgAAIgAAIgAAIgAAIgAAIgAAIgAAIgAAIgAAIgAAIgAAIgAAIgAAIgAAIgAAIgAAIgAAIgAAIgAAIgAAIgAAIgAAIgAAIgAAIgAAIgAAIgAAIgAAIgAAIgAAIgAAIgAAIgAAIgAAInc/3AABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEAABEA
+Chiudi
