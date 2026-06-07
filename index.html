@@ -177,6 +177,7 @@
     flex-wrap: wrap;
     opacity: 0;
     animation: fadeUp 0.8s ease 1s forwards;
+    margin-bottom: 3rem;
   }
 
   .badge {
@@ -202,6 +203,20 @@
   .badge::before {
     content: '●';
     font-size: 0.5rem;
+  }
+
+  /* LOGO BADGE */
+  .logo-badge-container {
+    display: inline-flex;
+    align-items: center;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 1.2s forwards;
+  }
+
+  .logo-badge {
+    width: 140px;
+    height: 140px;
+    flex-shrink: 0;
   }
 
   /* DIVIDER */
@@ -606,6 +621,7 @@
     .traction-items { grid-template-columns: 1fr; }
     .contact-section { padding: 4rem 1.5rem; }
     footer { flex-direction: column; gap: 1rem; text-align: center; }
+    .logo-badge { width: 100px; height: 100px; }
   }
 </style>
 </head>
@@ -635,6 +651,61 @@
     <span class="badge">Patented Technology</span>
     <span class="badge gold">Sustainability Focus</span>
     <span class="badge">Space & Earth Markets</span>
+  </div>
+  <div class="logo-badge-container">
+    <svg class="logo-badge" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+      <!-- Outer circle background -->
+      <circle cx="100" cy="100" r="95" fill="white" stroke="none"/>
+      
+      <!-- Decorative circles (layered effect) -->
+      <circle cx="100" cy="100" r="75" fill="#8B3A3A" opacity="0.9"/>
+      <circle cx="100" cy="100" r="70" fill="#A84C4C" opacity="0.8"/>
+      <circle cx="100" cy="100" r="65" fill="#C25555" opacity="0.7"/>
+      
+      <!-- Wavy pattern overlay -->
+      <defs>
+        <pattern id="diagonal" patternUnits="userSpaceOnUse" width="4" height="4">
+          <line x1="0" y1="0" x2="4" y2="4" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+        </pattern>
+      </defs>
+      <circle cx="100" cy="100" r="65" fill="url(#diagonal)"/>
+      
+      <!-- Hello Tomorrow logo (simplified geometric pyramid) -->
+      <g transform="translate(100, 100)">
+        <!-- Pyramid outline -->
+        <polygon points="0,-15 -12,8 12,8" fill="none" stroke="white" stroke-width="1.5"/>
+        <line x1="0" y1="-15" x2="0" y2="8" stroke="white" stroke-width="1.5"/>
+        <line x1="-6" y1="0" x2="6" y2="0" stroke="white" stroke-width="1.5"/>
+        
+        <!-- Text -->
+        <text x="20" y="-5" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white">hello</text>
+        <text x="20" y="10" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white">tomorrow</text>
+      </g>
+      
+      <!-- Outer ring text - DEEP TECH PIONEERS -->
+      <defs>
+        <path id="topCurve" d="M 30,100 A 70,70 0 0,1 170,100" fill="none"/>
+        <path id="bottomCurve" d="M 170,100 A 70,70 0 0,1 30,100" fill="none"/>
+      </defs>
+      
+      <!-- Top text: DEEP TECH -->
+      <text font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="#FF6B5B" letter-spacing="2">
+        <textPath href="#topCurve" startOffset="50%" text-anchor="middle">
+          DEEP TECH
+        </textPath>
+      </text>
+      
+      <!-- Bottom text: PIONEERS -->
+      <text font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="#001A4D" letter-spacing="2">
+        <textPath href="#bottomCurve" startOffset="50%" text-anchor="middle">
+          PIONEERS
+        </textPath>
+      </text>
+      
+      <!-- Decorative bars on sides -->
+      <rect x="15" y="60" width="15" height="80" fill="#FF6B5B" rx="3"/>
+      <rect x="170" y="60" width="15" height="80" fill="#001A4D" rx="3"/>
+    </svg>
   </div>
 </div>
 
@@ -707,7 +778,7 @@
   <div class="market-grid">
     <div class="market-card space">
       <h3>Space Sector</h3>
-      <p>ESA, NASA, and commercial space agencies require advanced life-support systems for deep-space missions, lunar bases, and orbital research. Our technology provides the critical edge for sustainable space exploration.</p>
+      <p>ESA, NASA, and commercial space agencies require advanced life-support systems for deep-space missions, lunar bases, and orbital research. Our technology provides the critical edge for sustainable operations beyond Earth.</p>
     </div>
     <div class="market-card earth">
       <h3>Aquaculture & Earth</h3>
