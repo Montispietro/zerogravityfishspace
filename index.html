@@ -101,20 +101,107 @@
 
   .nav-links a:hover { color: var(--cyan); }
 
- <div class="hero">
-  <div class="orbit-decoration"></div>
-  <p class="hero-eyebrow">Deep Tech Pioneer · London, UK · Est. 2024</p>
-  
-  <!-- HELLO TOMORROW LOGO -->
-  <img src="/home/workdir/attachments/Deep-Tech-Pioneers_Blue (2) (5).png" 
-       alt="Hello Tomorrow Deep Tech Pioneer" 
-       style="max-width: 620px; width: 85%; mix-blend-mode: screen; filter: drop-shadow(0 0 35px rgba(0,180,216,0.6)); opacity:0; animation:fadeUp 0.8s ease 0.4s forwards; margin-bottom:1.5rem; border-radius: 8px;">
+  /* HERO */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 8rem 3rem 5rem;
+    z-index: 1;
+  }
 
-  <p class="hero-desc">
-    Patented aquatic life-support technology enabling live organisms to survive in 
-    <em>10% of conventional water volume</em> — for space biomedical research and 
-    sustainable aquaculture logistics.
-  </p>
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 300px;
+    background: radial-gradient(ellipse at 50% 100%, rgba(0,180,216,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--cyan);
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.2s forwards;
+  }
+
+  .hero-title {
+    font-family: var(--font-display);
+    font-size: clamp(4rem, 10vw, 9rem);
+    line-height: 0.9;
+    letter-spacing: 0.02em;
+    color: var(--white);
+    margin-bottom: 0.3rem;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.4s forwards;
+  }
+
+  .hero-title span {
+    color: var(--cyan);
+    display: block;
+  }
+
+  .hero-subtitle {
+    font-family: var(--font-display);
+    font-size: clamp(1.8rem, 4vw, 3.5rem);
+    letter-spacing: 0.08em;
+    color: var(--gold);
+    margin-bottom: 2.5rem;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.6s forwards;
+  }
+
+  .hero-desc {
+    max-width: 600px;
+    font-size: 1.15rem;
+    font-weight: 300;
+    color: rgba(240, 244, 255, 0.75);
+    line-height: 1.8;
+    margin-bottom: 3rem;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.8s forwards;
+  }
+
+  .hero-badges {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 1s forwards;
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.5rem 1.2rem;
+    border: 1px solid rgba(0, 180, 216, 0.3);
+    background: rgba(0, 180, 216, 0.06);
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--cyan);
+  }
+
+  .badge.gold {
+    border-color: rgba(201, 168, 76, 0.4);
+    background: rgba(201, 168, 76, 0.06);
+    color: var(--gold-light);
+  }
+
+  .badge::before {
+    content: '●';
+    font-size: 0.5rem;
+  }
+
   /* DIVIDER */
   .divider {
     width: 100%;
