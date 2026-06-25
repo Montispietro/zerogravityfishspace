@@ -821,5 +821,100 @@
   document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 </script>
 
+  <script>
+const mediaItems = [
+
+    {
+        type:"video",
+        title:"Prototype Demonstration",
+        src:"media/demo.mp4"
+    },
+
+    {
+        type:"youtube",
+        title:"Investor Presentation",
+        src:"https://www.youtube.com/embed/VIDEO_ID"
+    },
+
+    {
+        type:"image",
+        title:"Prototype",
+        src:"images/prototype.jpg"
+    },
+
+    {
+        type:"pdf",
+        title:"Patent GB2325385A",
+        src:"docs/GB2325385A.pdf"
+    },
+
+    {
+        type:"video",
+        title:"ESA Test",
+        src:"media/esa-test.mp4"
+    },
+
+    {
+        type:"image",
+        title:"Prototype 2",
+        src:"images/prototype2.jpg"
+    },
+
+    {
+        type:"pdf",
+        title:"Business Plan",
+        src:"docs/business-plan.pdf"
+    }
+
+];
+
+const container = document.getElementById("media-container");
+
+mediaItems.forEach(item => {
+
+    let html = "";
+
+    switch(item.type){
+
+        case 'video':
+            html = `
+            <div class="media-card">
+                <h3>${item.title}</h3>
+                <video controls>
+                    <source src="${item.src}" type="video/mp4">
+                </video>
+            </div>`;
+            break;
+
+        case 'youtube':
+            html = `
+            <div class="media-card">
+                <h3>${item.title}</h3>
+                <iframe src="${item.src}" allowfullscreen></iframe>
+            </div>`;
+            break;
+
+        case 'image':
+            html = `
+            <div class="media-card">
+                <h3>${item.title}</h3>
+                <img src="${item.src}">
+            </div>`;
+            break;
+
+        case 'pdf':
+            html = `
+            <div class="media-card">
+                <h3>${item.title}</h3>
+                <a class="download-btn" href="${item.src}" target="_blank">Open PDF</a>
+            </div>`;
+            break;
+    }
+
+    container.innerHTML += html;
+
+});
+</script>
+
 </body>
 </html>
