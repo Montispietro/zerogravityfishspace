@@ -233,3 +233,64 @@
 
   </body>
 </html>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // 1. Dynamic Media Hub Generator
+    const mediaContainer = document.getElementById('media-container');
+    
+    const mediaItems = [
+      {
+        title: "System Architecture Overview",
+        type: "embed",
+        // Replace with actual explainer video or placeholder
+        src: "https://www.youtube.com/embed/dQw4w9WgXcQ", 
+        linkText: "Download Technical Briefing (PDF)"
+      },
+      {
+        title: "Prototype Testing Gallery",
+        type: "image",
+        // Fallback placeholder showing simulated gas-exchange array
+        src: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=600&q=80",
+        linkText: "View Blueprint Gallery"
+      }
+    ];
+
+    mediaItems.forEach(item => {
+      const card = document.createElement('div');
+      card.className = 'media-card reveal';
+      
+      let assetHtml = '';
+      if(item.type === 'embed') {
+        assetHtml = `<iframe src="${item.src}" allowfullscreen></iframe>`;
+      } else {
+        assetHtml = `<img src="${item.src}" alt="${item.title}">`;
+      }
+
+      card.innerHTML = `
+        <h3>${item.title}</h3>
+        ${assetHtml}
+        <a href="#" class="download-btn">${item.linkText}</a>
+      `;
+      mediaContainer.appendChild(card);
+    });
+
+    // 2. Intersection Observer Engine for Scroll Reveals
+    const revealElements = document.querySelectorAll('.reveal');
+    
+    const revealObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          // Once displayed, stop watching to retain structural visibility
+          observer.unobserve(entry.target); 
+        }
+      });
+    }, {
+      root: null,
+      threshold: 0.1,
+      rootMargin: '0px 0px -40px 0px'
+    });
+
+    revealElements.forEach(el => revealObserver.observe(el));
+  });
+</script>
