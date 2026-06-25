@@ -1,0 +1,1072 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZGFS Admin — Content Manager</title>
+<style>
+  :root {
+    --bg: #0a0f1a;
+    --surface: #111827;
+    --surface2: #1a2332;
+    --border: #1e3a5f;
+    --accent: #0ea5e9;
+    --accent2: #38bdf8;
+    --danger: #ef4444;
+    --success: #22c55e;
+    --warn: #f59e0b;
+    --text: #e2e8f0;
+    --text2: #94a3b8;
+    --text3: #64748b;
+    --mono: 'JetBrains Mono', 'Fira Code', monospace;
+    --sans: 'Inter', system-ui, sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 14px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* ── Layout ── */
+  .shell { display: flex; min-height: 100vh; }
+
+  .sidebar {
+    width: 220px;
+    flex-shrink: 0;
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+  }
+
+  .sidebar-logo {
+    padding: 20px 20px 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .sidebar-logo .wordmark {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .sidebar-logo .sub {
+    font-size: 10px;
+    color: var(--text3);
+    margin-top: 2px;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+  }
+
+  .nav { flex: 1; padding: 12px 0; overflow-y: auto; }
+
+  .nav-section {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--text3);
+    padding: 12px 20px 6px;
+  }
+
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 20px;
+    cursor: pointer;
+    color: var(--text2);
+    font-size: 13px;
+    transition: background .12s, color .12s;
+    border-left: 2px solid transparent;
+  }
+  .nav-item:hover { background: var(--surface2); color: var(--text); }
+  .nav-item.active { color: var(--accent); border-left-color: var(--accent); background: rgba(14,165,233,.07); }
+  .nav-item .icon { font-size: 15px; width: 18px; text-align: center; flex-shrink: 0; }
+
+  .main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+
+  .topbar {
+    height: 52px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    padding: 0 28px;
+    gap: 16px;
+    flex-shrink: 0;
+  }
+  .topbar h1 { font-size: 15px; font-weight: 600; color: var(--text); flex: 1; }
+  .badge { font-size: 10px; background: rgba(14,165,233,.15); color: var(--accent); padding: 2px 8px; border-radius: 999px; font-weight: 600; letter-spacing: .04em; }
+
+  .content { flex: 1; overflow-y: auto; padding: 28px; }
+
+  /* ── Panels ── */
+  .panel { display: none; }
+  .panel.active { display: block; }
+
+  /* ── Cards ── */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin-bottom: 20px;
+    overflow: hidden;
+  }
+  .card-header {
+    display: flex;
+    align-items: center;
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--border);
+    gap: 10px;
+  }
+  .card-header h2 { font-size: 13px; font-weight: 600; flex: 1; }
+  .card-body { padding: 20px; }
+
+  /* ── Form Elements ── */
+  .field { margin-bottom: 16px; }
+  .field:last-child { margin-bottom: 0; }
+
+  label {
+    display: block;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--text3);
+    margin-bottom: 6px;
+  }
+
+  input[type="text"], input[type="url"], input[type="email"], textarea, select {
+    width: 100%;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 13px;
+    padding: 8px 12px;
+    transition: border-color .15s;
+    outline: none;
+  }
+  input[type="text"]:focus, input[type="url"]:focus, input[type="email"]:focus, textarea:focus, select:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 2px rgba(14,165,233,.12);
+  }
+  textarea { resize: vertical; min-height: 80px; line-height: 1.5; }
+
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media (max-width: 700px) { .field-row { grid-template-columns: 1fr; } }
+
+  /* ── Buttons ── */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 8px 16px;
+    border-radius: 5px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: opacity .15s, transform .1s;
+    letter-spacing: .03em;
+  }
+  .btn:active { transform: scale(.97); }
+  .btn-primary { background: var(--accent); color: #fff; }
+  .btn-primary:hover { opacity: .88; }
+  .btn-danger { background: var(--danger); color: #fff; }
+  .btn-ghost { background: transparent; color: var(--text2); border: 1px solid var(--border); }
+  .btn-ghost:hover { border-color: var(--text2); color: var(--text); }
+  .btn-sm { padding: 5px 10px; font-size: 11px; }
+
+  .save-bar {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+    padding: 14px 20px;
+    background: rgba(14,165,233,.04);
+    border-top: 1px solid var(--border);
+  }
+
+  /* ── Token config ── */
+  .token-area {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    padding: 10px 12px;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text2);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .token-area input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: var(--accent2);
+    font-family: var(--mono);
+    font-size: 12px;
+    padding: 0;
+    outline: none;
+  }
+
+  /* ── Patent items ── */
+  .patent-item {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 14px 16px;
+    margin-bottom: 12px;
+    position: relative;
+  }
+  .patent-item .remove-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  }
+
+  /* ── Status / toast ── */
+  #toast {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    padding: 12px 20px;
+    border-radius: 7px;
+    font-size: 13px;
+    font-weight: 600;
+    z-index: 9999;
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity .25s, transform .25s;
+    pointer-events: none;
+  }
+  #toast.show { opacity: 1; transform: translateY(0); }
+  #toast.success { background: var(--success); color: #fff; }
+  #toast.error { background: var(--danger); color: #fff; }
+  #toast.info { background: var(--accent); color: #fff; }
+
+  /* ── GitHub status ── */
+  .gh-status {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 12px;
+    color: var(--text3);
+  }
+  .gh-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--text3);
+    flex-shrink: 0;
+  }
+  .gh-dot.ok { background: var(--success); }
+  .gh-dot.err { background: var(--danger); }
+
+  /* ── Media items ── */
+  .media-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+  @media (max-width: 700px) { .media-row { grid-template-columns: 1fr; } }
+
+  .media-thumb {
+    aspect-ratio: 16/9;
+    background: var(--surface2);
+    border: 1px dashed var(--border);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 6px;
+    color: var(--text3);
+    font-size: 12px;
+    cursor: pointer;
+    transition: border-color .15s;
+  }
+  .media-thumb:hover { border-color: var(--accent); color: var(--accent); }
+  .media-thumb .thumb-icon { font-size: 28px; }
+
+  img.preview {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    border-radius: 5px;
+  }
+
+  .section-divider {
+    height: 1px;
+    background: var(--border);
+    margin: 20px 0;
+  }
+
+  .hint { font-size: 11px; color: var(--text3); margin-top: 4px; }
+</style>
+</head>
+<body>
+
+<div class="shell">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="wordmark">ZGFS Admin</div>
+      <div class="sub">Content Manager</div>
+    </div>
+    <nav class="nav">
+      <div class="nav-section">Site</div>
+      <div class="nav-item active" onclick="showPanel('hero')" id="nav-hero">
+        <span class="icon">🚀</span> Hero &amp; Brand
+      </div>
+      <div class="nav-item" onclick="showPanel('about')" id="nav-about">
+        <span class="icon">📄</span> About / Mission
+      </div>
+      <div class="nav-item" onclick="showPanel('tech')" id="nav-tech">
+        <span class="icon">⚙️</span> Technology
+      </div>
+      <div class="nav-item" onclick="showPanel('patents')" id="nav-patents">
+        <span class="icon">📋</span> Patents / IP
+      </div>
+      <div class="nav-item" onclick="showPanel('media')" id="nav-media">
+        <span class="icon">🖼️</span> Images &amp; Video
+      </div>
+      <div class="nav-item" onclick="showPanel('links')" id="nav-links">
+        <span class="icon">🔗</span> Links &amp; Contact
+      </div>
+      <div class="nav-section">Config</div>
+      <div class="nav-item" onclick="showPanel('github')" id="nav-github">
+        <span class="icon">⚙️</span> GitHub Settings
+      </div>
+    </nav>
+  </aside>
+
+  <!-- Main -->
+  <div class="main">
+    <div class="topbar">
+      <h1 id="panel-title">Hero &amp; Brand</h1>
+      <div class="gh-status" id="gh-status">
+        <div class="gh-dot" id="gh-dot"></div>
+        <span id="gh-status-text">Not configured</span>
+      </div>
+      <button class="btn btn-primary btn-sm" onclick="publishAll()">⬆ Publish to GitHub</button>
+    </div>
+
+    <div class="content">
+
+      <!-- ── HERO ── -->
+      <div class="panel active" id="panel-hero">
+        <div class="card">
+          <div class="card-header">
+            <span>🚀</span><h2>Hero Section</h2>
+          </div>
+          <div class="card-body">
+            <div class="field">
+              <label>Main Headline</label>
+              <input type="text" id="hero_headline" placeholder="Zero Gravity Fish Space Ltd">
+            </div>
+            <div class="field">
+              <label>Subheadline / Tagline</label>
+              <input type="text" id="hero_tagline" placeholder="Aquatic Life Support for Space &amp; Earth">
+            </div>
+            <div class="field">
+              <label>Hero Description</label>
+              <textarea id="hero_desc" rows="3" placeholder="Patented aquatic life-support technology..."></textarea>
+            </div>
+            <div class="field-row">
+              <div class="field">
+                <label>CTA Button 1 — Label</label>
+                <input type="text" id="hero_cta1_label" placeholder="Learn More">
+              </div>
+              <div class="field">
+                <label>CTA Button 1 — URL</label>
+                <input type="url" id="hero_cta1_url" placeholder="#technology">
+              </div>
+            </div>
+            <div class="field-row">
+              <div class="field">
+                <label>CTA Button 2 — Label</label>
+                <input type="text" id="hero_cta2_label" placeholder="Contact Us">
+              </div>
+              <div class="field">
+                <label>CTA Button 2 — URL</label>
+                <input type="url" id="hero_cta2_url" placeholder="#contact">
+              </div>
+            </div>
+          </div>
+          <div class="save-bar">
+            <button class="btn btn-ghost btn-sm" onclick="reloadFields()">↺ Reload</button>
+            <button class="btn btn-primary btn-sm" onclick="saveSection('hero')">Save Hero</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <span>🏅</span><h2>Key Stats / Badges</h2>
+          </div>
+          <div class="card-body">
+            <div class="field-row">
+              <div class="field">
+                <label>Stat 1 — Value</label>
+                <input type="text" id="stat1_val" placeholder="90%">
+              </div>
+              <div class="field">
+                <label>Stat 1 — Label</label>
+                <input type="text" id="stat1_label" placeholder="Water Reduction">
+              </div>
+            </div>
+            <div class="field-row">
+              <div class="field">
+                <label>Stat 2 — Value</label>
+                <input type="text" id="stat2_val" placeholder="TRL 4–5">
+              </div>
+              <div class="field">
+                <label>Stat 2 — Label</label>
+                <input type="text" id="stat2_label" placeholder="Technology Readiness">
+              </div>
+            </div>
+            <div class="field-row">
+              <div class="field">
+                <label>Stat 3 — Value</label>
+                <input type="text" id="stat3_val" placeholder="2">
+              </div>
+              <div class="field">
+                <label>Stat 3 — Label</label>
+                <input type="text" id="stat3_label" placeholder="Granted UK Patents">
+              </div>
+            </div>
+          </div>
+          <div class="save-bar">
+            <button class="btn btn-primary btn-sm" onclick="saveSection('stats')">Save Stats</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── ABOUT ── -->
+      <div class="panel" id="panel-about">
+        <div class="card">
+          <div class="card-header"><span>📄</span><h2>About &amp; Mission</h2></div>
+          <div class="card-body">
+            <div class="field">
+              <label>Section Title</label>
+              <input type="text" id="about_title" placeholder="About Zero Gravity Fish Space">
+            </div>
+            <div class="field">
+              <label>Mission Statement</label>
+              <textarea id="about_mission" rows="4" placeholder="Our mission is to..."></textarea>
+            </div>
+            <div class="field">
+              <label>Technology Overview Paragraph</label>
+              <textarea id="about_tech" rows="4" placeholder="ZGFS has developed a buoyancy-stabilised aquatic habitat..."></textarea>
+            </div>
+            <div class="field">
+              <label>Dual-Use Applications Paragraph</label>
+              <textarea id="about_dual" rows="3" placeholder="Space biomedical research / terrestrial aquaculture..."></textarea>
+            </div>
+            <div class="field">
+              <label>Founder Note (optional)</label>
+              <textarea id="about_founder" rows="3" placeholder="Founded by Pietro Montispietro..."></textarea>
+            </div>
+          </div>
+          <div class="save-bar">
+            <button class="btn btn-ghost btn-sm" onclick="reloadFields()">↺ Reload</button>
+            <button class="btn btn-primary btn-sm" onclick="saveSection('about')">Save About</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── TECHNOLOGY ── -->
+      <div class="panel" id="panel-tech">
+        <div class="card">
+          <div class="card-header"><span>⚙️</span><h2>Technology Section</h2></div>
+          <div class="card-body">
+            <div class="field">
+              <label>Section Title</label>
+              <input type="text" id="tech_title" placeholder="How It Works">
+            </div>
+            <div class="field">
+              <label>Technology Description</label>
+              <textarea id="tech_desc" rows="5" placeholder="The ZGFS system uses buoyancy stabilisation to maintain..."></textarea>
+            </div>
+            <div class="section-divider"></div>
+            <div class="field">
+              <label>Key Feature 1</label>
+              <input type="text" id="tech_feat1" placeholder="Reduces water volume by 90%">
+            </div>
+            <div class="field">
+              <label>Key Feature 2</label>
+              <input type="text" id="tech_feat2" placeholder="Compatible with zebrafish biology protocols">
+            </div>
+            <div class="field">
+              <label>Key Feature 3</label>
+              <input type="text" id="tech_feat3" placeholder="Validated prototype — TRL 4–5">
+            </div>
+            <div class="field">
+              <label>Key Feature 4</label>
+              <input type="text" id="tech_feat4" placeholder="Dual-use: space &amp; terrestrial aquaculture">
+            </div>
+            <div class="field">
+              <label>Space Applications Paragraph</label>
+              <textarea id="tech_space" rows="3" placeholder="In microgravity environments..."></textarea>
+            </div>
+            <div class="field">
+              <label>Earth Applications Paragraph</label>
+              <textarea id="tech_earth" rows="3" placeholder="On Earth, the technology enables..."></textarea>
+            </div>
+          </div>
+          <div class="save-bar">
+            <button class="btn btn-ghost btn-sm" onclick="reloadFields()">↺ Reload</button>
+            <button class="btn btn-primary btn-sm" onclick="saveSection('tech')">Save Technology</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── PATENTS ── -->
+      <div class="panel" id="panel-patents">
+        <div class="card">
+          <div class="card-header"><span>📋</span><h2>Patents &amp; Intellectual Property</h2>
+            <button class="btn btn-ghost btn-sm" onclick="addPatent()">+ Add Patent</button>
+          </div>
+          <div class="card-body">
+            <div class="field">
+              <label>IP Section Title</label>
+              <input type="text" id="ip_title" placeholder="Intellectual Property">
+            </div>
+            <div class="field">
+              <label>IP Section Intro</label>
+              <textarea id="ip_intro" rows="2" placeholder="ZGFS holds a growing patent portfolio..."></textarea>
+            </div>
+            <div class="section-divider"></div>
+            <div id="patent-list">
+              <!-- injected by JS -->
+            </div>
+            <p class="hint">Standard wording: "two granted UK patents and a third under examination"</p>
+          </div>
+          <div class="save-bar">
+            <button class="btn btn-ghost btn-sm" onclick="reloadFields()">↺ Reload</button>
+            <button class="btn btn-primary btn-sm" onclick="saveSection('patents')">Save IP Section</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── MEDIA ── -->
+      <div class="panel" id="panel-media">
+        <div class="card">
+          <div class="card-header"><span>🖼️</span><h2>Logo &amp; Images</h2></div>
+          <div class="card-body">
+            <div class="field">
+              <label>Company Logo — URL or path</label>
+              <input type="url" id="logo_url" placeholder="assets/logo.png or https://...">
+              <p class="hint">Link to image file in the repo (e.g. assets/logo.png) or external URL.</p>
+            </div>
+            <div class="field">
+              <label>Hello Tomorrow Logo URL</label>
+              <input type="url" id="ht_logo_url" placeholder="assets/hello-tomorrow.png">
+            </div>
+            <div class="section-divider"></div>
+            <div class="media-row">
+              <div class="field">
+                <label>Hero Background Image URL</label>
+                <input type="url" id="hero_img_url" placeholder="assets/hero-bg.jpg">
+              </div>
+              <div class="field">
+                <label>Technology Section Image URL</label>
+                <input type="url" id="tech_img_url" placeholder="assets/tech-diagram.jpg">
+              </div>
+            </div>
+            <div class="field">
+              <label>Prototype Photo URL</label>
+              <input type="url" id="proto_img_url" placeholder="assets/prototype.jpg">
+            </div>
+          </div>
+          <div class="save-bar">
+            <button class="btn btn-primary btn-sm" onclick="saveSection('media')">Save Media</button>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header"><span>🎬</span><h2>Video</h2></div>
+          <div class="card-body">
+            <div class="field">
+              <label>Video Section Title</label>
+              <input type="text" id="video_title" placeholder="Hybrida Atmosphera — Zero Gravity Fish Space">
+            </div>
+            <div class="field">
+              <label>Video Embed URL or YouTube ID</label>
+              <input type="text" id="video_url" placeholder="https://www.youtube.com/embed/XXXXXXXXXXX">
+              <p class="hint">Paste full embed URL or YouTube video ID.</p>
+            </div>
+            <div class="field">
+              <label>Video Caption</label>
+              <textarea id="video_caption" rows="2" placeholder="Scientific video documenting the ZGFS prototype..."></textarea>
+            </div>
+          </div>
+          <div class="save-bar">
+            <button class="btn btn-primary btn-sm" onclick="saveSection('video')">Save Video</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── LINKS & CONTACT ── -->
+      <div class="panel" id="panel-links">
+        <div class="card">
+          <div class="card-header"><span>🔗</span><h2>Links &amp; Navigation</h2></div>
+          <div class="card-body">
+            <div class="field-row">
+              <div class="field">
+                <label>LinkedIn URL</label>
+                <input type="url" id="link_linkedin" placeholder="https://linkedin.com/company/...">
+              </div>
+              <div class="field">
+                <label>GitHub URL</label>
+                <input type="url" id="link_github" placeholder="https://github.com/Montispietro/...">
+              </div>
+            </div>
+            <div class="field-row">
+              <div class="field">
+                <label>Hello Tomorrow Profile URL</label>
+                <input type="url" id="link_ht" placeholder="https://hello-tomorrow.org/...">
+              </div>
+              <div class="field">
+                <label>Companies House URL</label>
+                <input type="url" id="link_ch" placeholder="https://find-and-update.company-information.service.gov.uk/...">
+              </div>
+            </div>
+          </div>
+          <div class="save-bar">
+            <button class="btn btn-primary btn-sm" onclick="saveSection('links')">Save Links</button>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header"><span>✉️</span><h2>Contact Information</h2></div>
+          <div class="card-body">
+            <div class="field-row">
+              <div class="field">
+                <label>Contact Email</label>
+                <input type="email" id="contact_email" placeholder="info@zerogravityfishspace.com">
+              </div>
+              <div class="field">
+                <label>Contact Name / Title</label>
+                <input type="text" id="contact_name" placeholder="Pietro — Founder &amp; CEO">
+              </div>
+            </div>
+            <div class="field">
+              <label>Contact Section CTA Text</label>
+              <textarea id="contact_cta" rows="2" placeholder="Interested in collaboration or investment?..."></textarea>
+            </div>
+            <div class="field-row">
+              <div class="field">
+                <label>Company Registered Name</label>
+                <input type="text" id="co_name" placeholder="Zero Gravity Fish Space Ltd">
+              </div>
+              <div class="field">
+                <label>Company Number</label>
+                <input type="text" id="co_number" placeholder="16720954">
+              </div>
+            </div>
+          </div>
+          <div class="save-bar">
+            <button class="btn btn-ghost btn-sm" onclick="reloadFields()">↺ Reload</button>
+            <button class="btn btn-primary btn-sm" onclick="saveSection('contact')">Save Contact</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── GITHUB SETTINGS ── -->
+      <div class="panel" id="panel-github">
+        <div class="card">
+          <div class="card-header"><span>⚙️</span><h2>GitHub Configuration</h2></div>
+          <div class="card-body">
+            <div class="field">
+              <label>GitHub Personal Access Token</label>
+              <div class="token-area">
+                <input type="password" id="gh_token" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" autocomplete="off">
+                <button class="btn btn-ghost btn-sm" onclick="toggleTokenVisibility()">👁</button>
+              </div>
+              <p class="hint">Needs <code>repo</code> scope. Stored only in localStorage on this browser — never sent anywhere except the GitHub API.</p>
+            </div>
+            <div class="field-row">
+              <div class="field">
+                <label>Repository Owner</label>
+                <input type="text" id="gh_owner" placeholder="Montispietro">
+              </div>
+              <div class="field">
+                <label>Repository Name</label>
+                <input type="text" id="gh_repo" placeholder="zerogravityfishspace">
+              </div>
+            </div>
+            <div class="field">
+              <label>Branch</label>
+              <input type="text" id="gh_branch" placeholder="main">
+            </div>
+            <div class="field">
+              <label>content.json path in repo</label>
+              <input type="text" id="gh_path" placeholder="content.json">
+            </div>
+          </div>
+          <div class="save-bar">
+            <button class="btn btn-ghost btn-sm" onclick="testGitHub()">Test Connection</button>
+            <button class="btn btn-primary btn-sm" onclick="saveGitHubConfig()">Save Config</button>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header"><span>🗂️</span><h2>Current content.json</h2></div>
+          <div class="card-body">
+            <p class="hint" style="margin-bottom:12px">Preview of what will be saved to GitHub on next publish.</p>
+            <textarea id="json_preview" rows="18" style="font-family:var(--mono);font-size:11px;color:var(--accent2);background:var(--surface2);border:1px solid var(--border);padding:12px;border-radius:5px;resize:vertical;" readonly></textarea>
+          </div>
+          <div class="save-bar">
+            <button class="btn btn-ghost btn-sm" onclick="refreshPreview()">↺ Refresh Preview</button>
+            <button class="btn btn-primary btn-sm" onclick="publishAll()">⬆ Publish to GitHub</button>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /content -->
+  </div><!-- /main -->
+</div><!-- /shell -->
+
+<div id="toast"></div>
+
+<script>
+// ─── State ───────────────────────────────────────────────────────────────────
+let state = {};
+let ghConfig = {};
+let patents = [];
+
+// Field map: fieldId → state key path (dot notation)
+const FIELDS = {
+  hero_headline: 'hero.headline',
+  hero_tagline:  'hero.tagline',
+  hero_desc:     'hero.desc',
+  hero_cta1_label: 'hero.cta1.label',
+  hero_cta1_url:   'hero.cta1.url',
+  hero_cta2_label: 'hero.cta2.label',
+  hero_cta2_url:   'hero.cta2.url',
+  stat1_val:   'stats.s1.value',
+  stat1_label: 'stats.s1.label',
+  stat2_val:   'stats.s2.value',
+  stat2_label: 'stats.s2.label',
+  stat3_val:   'stats.s3.value',
+  stat3_label: 'stats.s3.label',
+  about_title:   'about.title',
+  about_mission: 'about.mission',
+  about_tech:    'about.tech',
+  about_dual:    'about.dual',
+  about_founder: 'about.founder',
+  tech_title: 'tech.title',
+  tech_desc:  'tech.desc',
+  tech_feat1: 'tech.features.0',
+  tech_feat2: 'tech.features.1',
+  tech_feat3: 'tech.features.2',
+  tech_feat4: 'tech.features.3',
+  tech_space: 'tech.space',
+  tech_earth: 'tech.earth',
+  ip_title: 'ip.title',
+  ip_intro: 'ip.intro',
+  logo_url:      'media.logo',
+  ht_logo_url:   'media.ht_logo',
+  hero_img_url:  'media.hero_bg',
+  tech_img_url:  'media.tech_img',
+  proto_img_url: 'media.proto',
+  video_title:   'video.title',
+  video_url:     'video.url',
+  video_caption: 'video.caption',
+  link_linkedin: 'links.linkedin',
+  link_github:   'links.github',
+  link_ht:       'links.ht',
+  link_ch:       'links.ch',
+  contact_email: 'contact.email',
+  contact_name:  'contact.name',
+  contact_cta:   'contact.cta',
+  co_name:       'contact.co_name',
+  co_number:     'contact.co_number',
+};
+
+// ─── Deep get/set ─────────────────────────────────────────────────────────────
+function deepGet(obj, path) {
+  return path.split('.').reduce((o, k) => (o && o[k] !== undefined ? o[k] : ''), obj);
+}
+function deepSet(obj, path, val) {
+  const keys = path.split('.');
+  let cur = obj;
+  for (let i = 0; i < keys.length - 1; i++) {
+    const k = keys[i];
+    if (cur[k] === undefined || typeof cur[k] !== 'object') cur[k] = {};
+    cur = cur[k];
+  }
+  cur[keys[keys.length-1]] = val;
+}
+
+// ─── Init ─────────────────────────────────────────────────────────────────────
+function init() {
+  // Load GH config
+  try { ghConfig = JSON.parse(localStorage.getItem('zgfs_gh') || '{}'); } catch(e) { ghConfig = {}; }
+  const ghFields = ['gh_token','gh_owner','gh_repo','gh_branch','gh_path'];
+  ghFields.forEach(id => { const el = document.getElementById(id); if (el) el.value = ghConfig[id] || ''; });
+
+  // Default branch / path
+  if (!document.getElementById('gh_branch').value) document.getElementById('gh_branch').value = 'main';
+  if (!document.getElementById('gh_path').value) document.getElementById('gh_path').value = 'content.json';
+
+  // Load content state from localStorage
+  try { state = JSON.parse(localStorage.getItem('zgfs_content') || '{}'); } catch(e) { state = {}; }
+
+  // Load patents
+  try { patents = JSON.parse(localStorage.getItem('zgfs_patents') || '[]'); } catch(e) { patents = []; }
+  renderPatents();
+
+  // Populate fields
+  reloadFields();
+  updateGhStatus();
+  refreshPreview();
+}
+
+function reloadFields() {
+  Object.entries(FIELDS).forEach(([id, path]) => {
+    const el = document.getElementById(id);
+    if (el) el.value = deepGet(state, path) || '';
+  });
+  renderPatents();
+  refreshPreview();
+}
+
+// ─── Nav ─────────────────────────────────────────────────────────────────────
+const PANELS = ['hero','about','tech','patents','media','links','github'];
+function showPanel(name) {
+  PANELS.forEach(p => {
+    document.getElementById('panel-'+p).classList.remove('active');
+    document.getElementById('nav-'+p).classList.remove('active');
+  });
+  document.getElementById('panel-'+name).classList.add('active');
+  document.getElementById('nav-'+name).classList.add('active');
+  const titles = {hero:'Hero & Brand', about:'About / Mission', tech:'Technology',
+    patents:'Patents / IP', media:'Images & Video', links:'Links & Contact', github:'GitHub Settings'};
+  document.getElementById('panel-title').textContent = titles[name] || name;
+}
+
+// ─── Save sections ─────────────────────────────────────────────────────────
+function saveSection(section) {
+  // Collect all fields for this section prefix
+  const prefix = { hero:['hero_','stat'], about:['about_'], tech:['tech_'],
+    patents:['ip_'], media:['logo_','ht_logo','hero_img','tech_img','proto_img'],
+    video:['video_'], links:['link_'], contact:['contact_','co_'] };
+  const prefixes = prefix[section] || [];
+
+  Object.entries(FIELDS).forEach(([id, path]) => {
+    if (prefixes.some(p => id.startsWith(p))) {
+      const el = document.getElementById(id);
+      if (el) deepSet(state, path, el.value.trim());
+    }
+  });
+
+  // Save patents separately
+  if (section === 'patents') {
+    collectPatents();
+    state.ip = state.ip || {};
+    state.ip.patents = patents;
+    localStorage.setItem('zgfs_patents', JSON.stringify(patents));
+  }
+
+  localStorage.setItem('zgfs_content', JSON.stringify(state));
+  refreshPreview();
+  toast('Saved locally ✓', 'success');
+}
+
+// ─── Patents ─────────────────────────────────────────────────────────────────
+function renderPatents() {
+  const list = document.getElementById('patent-list');
+  list.innerHTML = '';
+  if (!patents.length) {
+    patents = [
+      { ref: 'GB2325385B', title: 'High-pressure gas systems for aquatic life support', status: 'expired', year: '1998' },
+      { ref: 'UK Patent #2', title: 'Buoyancy-stabilised aquatic habitat', status: 'granted', year: '2023' },
+      { ref: 'UK Patent #3', title: 'Microgravity aquatic life support system', status: 'under_examination', year: '2024' },
+    ];
+  }
+  patents.forEach((p, i) => {
+    const div = document.createElement('div');
+    div.className = 'patent-item';
+    div.innerHTML = `
+      <button class="btn btn-ghost btn-sm remove-btn" onclick="removePatent(${i})">✕</button>
+      <div class="field-row">
+        <div class="field"><label>Reference Number</label>
+          <input type="text" class="p-ref" value="${esc(p.ref)}" placeholder="GB2325385B"></div>
+        <div class="field"><label>Year</label>
+          <input type="text" class="p-year" value="${esc(p.year)}" placeholder="2024"></div>
+      </div>
+      <div class="field"><label>Title / Description</label>
+        <input type="text" class="p-title" value="${esc(p.title)}" placeholder="Patent title..."></div>
+      <div class="field"><label>Status</label>
+        <select class="p-status">
+          <option value="granted" ${p.status==='granted'?'selected':''}>✅ Granted</option>
+          <option value="under_examination" ${p.status==='under_examination'?'selected':''}>🔄 Under Examination</option>
+          <option value="expired" ${p.status==='expired'?'selected':''}>📁 Expired (prior art)</option>
+          <option value="pending" ${p.status==='pending'?'selected':''}>⏳ Pending</option>
+        </select></div>
+    `;
+    list.appendChild(div);
+  });
+}
+
+function esc(s) { return (s||'').replace(/"/g,'&quot;'); }
+
+function collectPatents() {
+  const items = document.querySelectorAll('.patent-item');
+  patents = Array.from(items).map(item => ({
+    ref:    item.querySelector('.p-ref').value.trim(),
+    title:  item.querySelector('.p-title').value.trim(),
+    status: item.querySelector('.p-status').value,
+    year:   item.querySelector('.p-year').value.trim(),
+  }));
+}
+
+function addPatent() {
+  collectPatents();
+  patents.push({ ref: '', title: '', status: 'granted', year: new Date().getFullYear().toString() });
+  renderPatents();
+}
+
+function removePatent(i) {
+  collectPatents();
+  patents.splice(i, 1);
+  renderPatents();
+}
+
+// ─── GitHub ──────────────────────────────────────────────────────────────────
+function saveGitHubConfig() {
+  ghConfig = {
+    gh_token:  document.getElementById('gh_token').value.trim(),
+    gh_owner:  document.getElementById('gh_owner').value.trim(),
+    gh_repo:   document.getElementById('gh_repo').value.trim(),
+    gh_branch: document.getElementById('gh_branch').value.trim() || 'main',
+    gh_path:   document.getElementById('gh_path').value.trim() || 'content.json',
+  };
+  localStorage.setItem('zgfs_gh', JSON.stringify(ghConfig));
+  toast('GitHub config saved', 'success');
+  updateGhStatus();
+}
+
+function updateGhStatus() {
+  const dot = document.getElementById('gh-dot');
+  const txt = document.getElementById('gh-status-text');
+  if (ghConfig.gh_token && ghConfig.gh_owner && ghConfig.gh_repo) {
+    dot.className = 'gh-dot ok';
+    txt.textContent = `${ghConfig.gh_owner}/${ghConfig.gh_repo}`;
+  } else {
+    dot.className = 'gh-dot err';
+    txt.textContent = 'Not configured';
+  }
+}
+
+function toggleTokenVisibility() {
+  const inp = document.getElementById('gh_token');
+  inp.type = inp.type === 'password' ? 'text' : 'password';
+}
+
+async function testGitHub() {
+  saveGitHubConfig();
+  if (!ghConfig.gh_token) { toast('Enter a GitHub token first', 'error'); return; }
+  toast('Testing connection…', 'info');
+  try {
+    const r = await fetch(`https://api.github.com/repos/${ghConfig.gh_owner}/${ghConfig.gh_repo}`, {
+      headers: { Authorization: `token ${ghConfig.gh_token}`, Accept: 'application/vnd.github.v3+json' }
+    });
+    if (r.ok) { toast('✅ Connected to GitHub!', 'success'); document.getElementById('gh-dot').className = 'gh-dot ok'; }
+    else { const d = await r.json(); toast(`GitHub error: ${d.message}`, 'error'); }
+  } catch(e) { toast('Network error — check token and repo', 'error'); }
+}
+
+// ─── Build content.json ───────────────────────────────────────────────────────
+function buildContentJson() {
+  // Sync all fields into state first
+  Object.entries(FIELDS).forEach(([id, path]) => {
+    const el = document.getElementById(id);
+    if (el) deepSet(state, path, el.value.trim());
+  });
+  collectPatents();
+  state.ip = state.ip || {};
+  state.ip.patents = patents;
+  const el_ip_title = document.getElementById('ip_title');
+  const el_ip_intro = document.getElementById('ip_intro');
+  if (el_ip_title) deepSet(state, 'ip.title', el_ip_title.value.trim());
+  if (el_ip_intro) deepSet(state, 'ip.intro', el_ip_intro.value.trim());
+  state._updated = new Date().toISOString();
+  return JSON.stringify(state, null, 2);
+}
+
+function refreshPreview() {
+  const pre = document.getElementById('json_preview');
+  if (pre) pre.value = buildContentJson();
+}
+
+// ─── Publish to GitHub ────────────────────────────────────────────────────────
+async function publishAll() {
+  if (!ghConfig.gh_token) { toast('Configure GitHub first (Settings tab)', 'error'); return; }
+  toast('Publishing…', 'info');
+
+  const content = buildContentJson();
+  const b64 = btoa(unescape(encodeURIComponent(content)));
+  const path = ghConfig.gh_path || 'content.json';
+  const branch = ghConfig.gh_branch || 'main';
+  const apiBase = `https://api.github.com/repos/${ghConfig.gh_owner}/${ghConfig.gh_repo}/contents/${path}`;
+
+  // Get current SHA if file exists
+  let sha = null;
+  try {
+    const r = await fetch(`${apiBase}?ref=${branch}`, {
+      headers: { Authorization: `token ${ghConfig.gh_token}`, Accept: 'application/vnd.github.v3+json' }
+    });
+    if (r.ok) { const d = await r.json(); sha = d.sha; }
+  } catch(e) {}
+
+  // PUT
+  const body = { message: `admin: update content.json — ${new Date().toISOString()}`, content: b64, branch };
+  if (sha) body.sha = sha;
+
+  try {
+    const r = await fetch(apiBase, {
+      method: 'PUT',
+      headers: {
+        Authorization: `token ${ghConfig.gh_token}`,
+        Accept: 'application/vnd.github.v3+json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body),
+    });
+    const d = await r.json();
+    if (r.ok) {
+      localStorage.setItem('zgfs_content', content);
+      toast('✅ Published to GitHub!', 'success');
+    } else {
+      toast(`Error: ${d.message}`, 'error');
+    }
+  } catch(e) {
+    toast('Network error during publish', 'error');
+  }
+}
+
+// ─── Toast ────────────────────────────────────────────────────────────────────
+let toastTimer;
+function toast(msg, type='info') {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className = `show ${type}`;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => { el.classList.remove('show'); }, 3000);
+}
+
+// ─── Boot ─────────────────────────────────────────────────────────────────────
+init();
+</script>
+</body>
+</html>
